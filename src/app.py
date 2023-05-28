@@ -5,17 +5,24 @@ root = tkinter.Tk()
 root.title("To Do List")
 
 tasks = []  # Lista para armazenar as tarefas adicionadas
+end_time_list = []
 
 def add_task():
     task = entry_task.get()
     end_time = entry_end_time.get()
+    print(end_time)
     if task != "" and end_time != "":
+        for item in end_time_list:
+            if end_time == item:
+                tkinter.messagebox.showwarning(title="Atenção!", message="Já existe uma tarefa com a mesma data de término")
+                return
         task_with_end_time = task + " (Término: " + end_time + ")"
         tasks.append(task_with_end_time)
         tasks.sort(key=lambda x: x.split(" (Término: ")[-1][:-1])  # Ordena as tarefas com base no tempo de término
         update_listbox()
         entry_task.delete(0, tkinter.END)
         entry_end_time.delete(0, tkinter.END)
+        end_time_list.append(end_time)
     else:
         tkinter.messagebox.showwarning(title="Atenção!", message="Insira uma tarefa e um tempo de término")
 
